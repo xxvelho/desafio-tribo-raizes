@@ -2,6 +2,10 @@ package com.grupomateus.triboraizes.desafio.controller;
 
 import com.grupomateus.triboraizes.desafio.dto.ProdutoDto;
 import com.grupomateus.triboraizes.desafio.service.ProdutoService;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -9,33 +13,37 @@ import java.util.List;
 @RestController
 @RequestMapping("/estoque/produtos")
 public class ProdutoController {
+
+    @Autowired
     private ProdutoService produtoService;
-    public ProdutoController(ProdutoService produtoService) {
-        this.produtoService = produtoService;
-    }
 
     @PostMapping("/cadastrar")
-    public ProdutoDto cadastrarProduto(@RequestBody ProdutoDto produtoDto) {
-        return produtoService.cadastrarProduto(produtoDto);
+    public ResponseEntity<ProdutoDto> cadastrarProduto(@Valid @RequestBody ProdutoDto produtoDto) {
+        ProdutoDto produtoCadastrado = produtoService.cadastrarProduto(produtoDto);
+        return new ResponseEntity<>(produtoCadastrado, HttpStatus.CREATED);
     }
 
-    @GetMapping("/{id}")
-    public ProdutoDto buscarProdutoPorId(@PathVariable("id") Long id) {
-        return produtoService.buscarProdutoPorId(id);
+    @GetMapping("/buscarPorId/{id}")
+    public ResponseEntity<ProdutoDto> buscarProdutoPorId(@PathVariable Long id) {
+        ProdutoDto produto = produtoService.buscarProdutoPorId(id);
+        return ResponseEntity.ok(produto);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public void deletarProdutoPorId(@PathVariable("id") Long id) {
+    @DeleteMapping("/apagar/{id}")
+    public ResponseEntity<Void> deletarProdutoPorId(@PathVariable Long id) {
         produtoService.deletarProdutoPorId(id);
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/atualizar")
-    public ProdutoDto atualizarProduto(@RequestBody ProdutoDto produtoDto) {
-        return produtoService.atualizarProduto(produtoDto);
+    public ResponseEntity<ProdutoDto> atualizarProduto(@Valid @RequestBody ProdutoDto produtoDto) {
+        ProdutoDto produtoAtualizado = produtoService.atualizarProduto(produtoDto);
+        return ResponseEntity.ok(produtoAtualizado);
     }
 
-    @GetMapping("/listar")
-    public List<ProdutoDto> listarTodosProdutos() {
-        return produtoService.listarTodosProdutos();
+    @GetMapping("/listarTodos")
+    public ResponseEntity<List<ProdutoDto>> listarTodosProdutos() {
+        List<ProdutoDto> produtos = produtoService.listarTodosProdutos();
+        return ResponseEntity.ok(produtos);
     }
 }

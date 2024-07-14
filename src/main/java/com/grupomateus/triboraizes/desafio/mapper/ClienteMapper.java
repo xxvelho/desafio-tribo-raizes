@@ -1,9 +1,7 @@
 package com.grupomateus.triboraizes.desafio.mapper;
 
 import com.grupomateus.triboraizes.desafio.dto.ClienteDto;
-import com.grupomateus.triboraizes.desafio.dto.ProdutoDto;
 import com.grupomateus.triboraizes.desafio.model.Cliente;
-import com.grupomateus.triboraizes.desafio.model.Produto;
 
 import java.util.List;
 

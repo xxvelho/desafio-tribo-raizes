@@ -1,9 +1,9 @@
 package com.grupomateus.triboraizes.desafio.model;
 
+import com.grupomateus.triboraizes.desafio.dto.ProdutoDto;
+import com.grupomateus.triboraizes.desafio.mapper.ProdutoMapper;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.math.BigDecimal;
 
 @Getter
 @Setter
@@ -19,13 +19,14 @@ public class ItemPedido {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "pedido_id")
-    private Pedido pedido;
-
-    @ManyToOne
     @JoinColumn(name = "produto_id")
     private Produto produto;
 
     private int quantidade;
-    private BigDecimal precoUnitario;
+
+    public ItemPedido(Long id, ProdutoDto produtoDto, int quantidade) {
+        this.id = id;
+        this.produto = ProdutoMapper.toProduto(produtoDto);
+        this.quantidade = quantidade;
+    }
 }
