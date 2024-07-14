@@ -1,5 +1,7 @@
 package com.grupomateus.triboraizes.desafio.service;
 
+import com.grupomateus.triboraizes.desafio.dto.ProdutoDto;
+import com.grupomateus.triboraizes.desafio.mapper.ProdutoMapper;
 import com.grupomateus.triboraizes.desafio.model.Produto;
 import com.grupomateus.triboraizes.desafio.repository.ProdutoRepository;
 import org.springframework.stereotype.Service;
@@ -14,23 +16,32 @@ public class ProdutoService {
         this.produtoRepository = produtoRepository;
     }
 
-    public Produto cadastrarProduto(Produto produto) {
-        return produtoRepository.save(produto);
+    public ProdutoDto cadastrarProduto(ProdutoDto produtoDto) {
+        Produto produto = ProdutoMapper.toProduto(produtoDto);
+        Produto produtoSalvo = produtoRepository.save(produto);
+        return ProdutoMapper.toProdutoDto(produtoSalvo);
     }
 
-    public Produto buscarProdutoPorId(Long id) {
-        return produtoRepository.findById(id).orElse(null);
+    public ProdutoDto buscarProdutoPorId(Long id) {
+        Produto produto = produtoRepository.findById(id).orElse(null);
+        if (produto == null) {
+            return null;
+        }
+        return ProdutoMapper.toProdutoDto(produto);
     }
 
     public void deletarProdutoPorId(Long id) {
         produtoRepository.deleteById(id);
     }
 
-    public Produto atualizarProduto(Produto produto) {
-        return produtoRepository.save(produto);
+    public ProdutoDto atualizarProduto(ProdutoDto produtoDto) {
+        Produto produto = ProdutoMapper.toProduto(produtoDto);
+        Produto produtoSalvo = produtoRepository.save(produto);
+        return ProdutoMapper.toProdutoDto(produtoSalvo);
     }
 
-    public List<Produto> listarTodosProdutos() {
-        return produtoRepository.findAll();
+    public List<ProdutoDto> listarTodosProdutos() {
+        List<Produto> produtos = produtoRepository.findAll();
+        return ProdutoMapper.toProdutoDtoList(produtos);
     }
 }

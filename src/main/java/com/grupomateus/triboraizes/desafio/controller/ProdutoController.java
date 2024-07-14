@@ -1,6 +1,6 @@
 package com.grupomateus.triboraizes.desafio.controller;
 
-import com.grupomateus.triboraizes.desafio.model.Produto;
+import com.grupomateus.triboraizes.desafio.dto.ProdutoDto;
 import com.grupomateus.triboraizes.desafio.service.ProdutoService;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,12 +15,12 @@ public class ProdutoController {
     }
 
     @PostMapping("/cadastrar")
-    public Produto cadastrarProduto(@RequestBody Produto produto) {
-        return produtoService.cadastrarProduto(produto);
+    public ProdutoDto cadastrarProduto(@RequestBody ProdutoDto produtoDto) {
+        return produtoService.cadastrarProduto(produtoDto);
     }
 
     @GetMapping("/{id}")
-    public Produto buscarProdutoPorId(@PathVariable("id") Long id) {
+    public ProdutoDto buscarProdutoPorId(@PathVariable("id") Long id) {
         return produtoService.buscarProdutoPorId(id);
     }
 
@@ -30,12 +30,12 @@ public class ProdutoController {
     }
 
     @PutMapping("/atualizar")
-    public Produto atualizarProduto(@RequestBody Produto produto) {
-        return produtoService.atualizarProduto(produto);
+    public ProdutoDto atualizarProduto(@RequestBody ProdutoDto produtoDto) {
+        return produtoService.atualizarProduto(produtoDto);
     }
 
     @GetMapping
-    public List<Produto> listarTodosProdutos() {
+    public List<ProdutoDto> listarTodosProdutos() {
         return produtoService.listarTodosProdutos();
     }
 }
