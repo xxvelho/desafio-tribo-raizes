@@ -34,7 +34,7 @@ public class ProdutoController {
         return produtoService.atualizarProduto(produtoDto);
     }
 
-    @GetMapping
+    @GetMapping("/listar")
     public List<ProdutoDto> listarTodosProdutos() {
         return produtoService.listarTodosProdutos();
     }
